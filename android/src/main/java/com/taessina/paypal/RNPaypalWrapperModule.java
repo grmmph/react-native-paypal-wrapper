@@ -108,12 +108,14 @@ public class RNPaypalWrapperModule extends ReactContextBaseJavaModule implements
     String price = params.getString("price");
     String currency = params.getString("currency");
     String description = params.getString("description");
+    String custom = params.getString("custom");
 
     PayPalPayment payment =
       new PayPalPayment(
         new BigDecimal(price),
         currency,
         description,
+        custom,
         PayPalPayment.PAYMENT_INTENT_SALE
       );
 

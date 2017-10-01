@@ -41,24 +41,26 @@ RCT_EXPORT_METHOD(pay:(NSDictionary *)options resolver:(RCTPromiseResolveBlock)r
 {
     self.resolve = resolve;
     self.reject = reject;
-    
+
     NSString *price = [RCTConvert NSString:options[@"price"]];
     NSString *currency = [RCTConvert NSString:options[@"currency"]];
     NSString *description = [RCTConvert NSString:options[@"description"]];
-    
+    NSString *custom = [RCTConvert NSString:options[@"custom"]];
+
     self.payment = [[PayPalPayment alloc] init];
     [self.payment setAmount:[[NSDecimalNumber alloc] initWithString:price]];
     [self.payment setCurrencyCode:currency];
     [self.payment setShortDescription:description];
-    
+    [self.payment setCustom:custom];
+
     self.configuration = [[PayPalConfiguration alloc] init];
     [self.configuration setAcceptCreditCards:false];
     [self.configuration setPayPalShippingAddressOption:PayPalShippingAddressOptionPayPal];
-    
+
     PayPalPaymentViewController *vc = [[PayPalPaymentViewController alloc] initWithPayment:self.payment
                                                                              configuration:self.configuration
                                                                                   delegate:self];
-    
+
     UIViewController *visibleVC = [[[UIApplication sharedApplication] keyWindow] rootViewController];
     do {
         if ([visibleVC isKindOfClass:[UINavigationController class]]) {
